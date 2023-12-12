@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            background-image: url('https://i.pinimg.com/564x/37/b5/75/37b57509ff47f603e522df4fcb5c3b48.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        li.completed {
+            background-color: #aaffaa;
+        }
+
+        a.view-link {
+            color: #3498db;
+            margin-left: 10px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h1 style="color: #fff;">To-Do List</h1>
+    <form method="post" action="{{ url_for('add') }}">
+        <label for="task">New Task:</label>
+        <input type="text" id="task" name="task" required><br><br>
+        <center><button type="submit">Add Task</button></center>
+    </form>
+    </center>
+    <ul>
+        {% for task in tasks %}
+    <li class="{% if task.completed %}completed{% endif %}">
+        {{ task.name }}<br><br>
+        <a href="{{ url_for('complete', task_id=loop.index0) }}">Complete</a><br><br>
+        <a href="{{ url_for('delete', task_id=loop.index0) }}">Delete</a><br><br>
+        <a class="view-link" href="{{ url_for('view', task_id=loop.index0) }}">View</a>
+    </li>
+{% endfor %}
+    </ul>
+</body>
+</html>
